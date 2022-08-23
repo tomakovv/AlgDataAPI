@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  algorithmapi:
+    image: ${DOCKER_REGISTRY-}algorithmapi
+    build:
+      context: .
+      dockerfile: src/AlgorithmAPI/Dockerfile
+    ports:
+      - "5000:80"
+
+  algdatagateway:
+    image: ${DOCKER_REGISTRY-}algdatagateway
+    build:
+      context: .
+      dockerfile: src/AlgDataGatewayAPI/AlgDataGateway/Dockerfile
+

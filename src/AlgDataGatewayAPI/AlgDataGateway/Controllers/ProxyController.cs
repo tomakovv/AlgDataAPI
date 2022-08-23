@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AlgDataGateway.Extensions;
+using AlgorithmAPI.Client;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace AlgDataGateway.Controllers
 {
@@ -14,7 +16,12 @@ namespace AlgDataGateway.Controllers
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        private async Task<ContentResult> ProxyTo(string url)
-      => Content(await _httpClient.GetStringAsync(url));
+        [HttpPost]
+        public async Task<IActionResult> BubbleSort(DataSet data)
+        => Ok(await _httpClient.DoPostAsync<DataSetResponse, DataSet>("http://localhost:5000/api/Algorithms/BubbleSort", data));
+
+        [HttpPost]
+        public async Task<IActionResult> InsertionSort(DataSet data)
+        => Ok(await _httpClient.DoPostAsync<DataSetResponse, DataSet>("http://localhost:5000/api/Algorithms/BubbleSort", data));
     }
 }

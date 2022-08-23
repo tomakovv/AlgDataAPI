@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DataStructureAPI/DataStructureAPI.csproj", "DataStructureAPI/"]
-RUN dotnet restore "DataStructureAPI/DataStructureAPI.csproj"
+COPY ["src/DataStructureAPI/DataStructureAPI.csproj", "src/DataStructureAPI/"]
+RUN dotnet restore "src/DataStructureAPI/DataStructureAPI.csproj"
 COPY . .
-WORKDIR "/src/DataStructureAPI"
+WORKDIR "/src/src/DataStructureAPI"
 RUN dotnet build "DataStructureAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish

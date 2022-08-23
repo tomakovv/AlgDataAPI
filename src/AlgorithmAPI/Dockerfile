@@ -2,15 +2,16 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
 EXPOSE 443
+EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["AlgorithmAPI/AlgorithmAPI.csproj", "AlgorithmAPI/"]
-RUN dotnet restore "AlgorithmAPI/AlgorithmAPI.csproj"
+COPY ["src/AlgorithmAPI/AlgorithmAPI.csproj", "src/AlgorithmAPI/"]
+COPY ["src/AlgorithmAPI.Client/AlgorithmAPI.Client.csproj", "src/AlgorithmAPI.Client/"]
+RUN dotnet restore "src/AlgorithmAPI/AlgorithmAPI.csproj"
 COPY . .
-WORKDIR "/src/AlgorithmAPI"
+WORKDIR "/src/src/AlgorithmAPI"
 RUN dotnet build "AlgorithmAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
