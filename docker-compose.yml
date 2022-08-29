@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=1Secure*Password1
+    ports:
+      - "127.0.0.1:3901:3901"
+
   algorithmapi:
     image: ${DOCKER_REGISTRY-}algorithmapi
     build:
@@ -14,4 +22,13 @@ services:
     build:
       context: .
       dockerfile: src/AlgDataGatewayAPI/AlgDataGateway/Dockerfile
+
+
+  datastructureapi:
+    image: ${DOCKER_REGISTRY-}datastructureapi
+    build:
+      context: .
+      dockerfile: src/DataStructureAPI/Dockerfile
+    depends_on:
+      - db
 

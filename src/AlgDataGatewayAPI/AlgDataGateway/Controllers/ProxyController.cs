@@ -22,6 +22,6 @@ namespace AlgDataGateway.Controllers
 
         [HttpPost]
         public async Task<IActionResult> InsertionSort(DataSet data)
-        => Ok(await _httpClient.DoPostAsync<DataSetResponse, DataSet>("http://localhost:5000/api/Algorithms/BubbleSort", data));
+        => Ok(await _httpClient.DoPostAsync<DataSetResponse, DataSet>("http://localhost:5000/api/Algorithms/InsertionSort", data));
     }
 }
