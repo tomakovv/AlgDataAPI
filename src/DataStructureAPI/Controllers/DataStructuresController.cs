@@ -1,5 +1,5 @@
 ﻿using DataStructureAPI.Data;
-using DataStructureAPI.Entities;
+using DataStructureAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataStructureAPI.Controllers
@@ -8,25 +8,29 @@ namespace DataStructureAPI.Controllers
     [ApiController]
     public class DataStructuresController : ControllerBase
     {
-        private readonly DataStructureContext _context;
+        private readonly IDataStructuresService _dataStructuresService;
 
-        public DataStructuresController(DataStructureContext context)
+        public DataStructuresController(DataStructureContext context, IDataStructuresService dataStructures)
         {
-            _context = context;
+            _dataStructuresService = dataStructures;
         }
 
         [HttpGet("Stack")]
-        public async Task<IActionResult> Stack()
-        {
-            return Ok(_context.DataStructures.Where(s => s.Id == 1));
-        }
+        public async Task<IActionResult> Stack() => Ok(await _dataStructuresService.GetInfoAsync("stack"));
 
-        [HttpPost]
-        public IActionResult Structure()
-        {
-            _context.DataStructures.Add(new DataStructure() { BigONotationValue = "2", Description = "dasd", Name = "dasds" });
-            _context.SaveChanges();
-            return Ok();
-        }
+        [HttpGet("Queue")]
+        public async Task<IActionResult> Queue() => Ok(await _dataStructuresService.GetInfoAsync("queue"));
+
+        [HttpGet("LinkedList")]
+        public async Task<IActionResult> LinkedList() => Ok(await _dataStructuresService.GetInfoAsync("linked list"));
+
+        [HttpGet("HashTable")]
+        public async Task<IActionResult> HashTable() => Ok(await _dataStructuresService.GetInfoAsync("hash table"));
+
+        [HttpGet("BinarySearchTree")]
+        public async Task<IActionResult> BinarySearch() => Ok(await _dataStructuresService.GetInfoAsync("binary search tree"));
+
+        [HttpGet("Graph")]
+        public async Task<IActionResult> Graph() => Ok(await _dataStructuresService.GetInfoAsync("graph"));
     }
 }

@@ -1,4 +1,4 @@
-﻿using AlgorithmAPI.Entities;
+﻿using AlgorithmAPI.Client;
 using AlgorithmAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,5 +20,11 @@ namespace AlgorithmAPI.Controllers
 
         [HttpPost("InsertionSort")]
         public IActionResult InsertionSort(DataSet data) => Ok(_sortService.InsertionSort(data));
+
+        [HttpPost("MergeSort")]
+        public IActionResult MergeSort(DataSet data) => Ok(_sortService.MergeSort(data));
+
+        [HttpPost("QuickSort")]
+        public IActionResult QuickSort(DataSet data) => Ok(_sortService.QuickSort(data));
     }
 }

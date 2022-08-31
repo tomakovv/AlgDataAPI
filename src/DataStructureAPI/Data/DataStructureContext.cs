@@ -1,4 +1,4 @@
-﻿using DataStructureAPI.Entities;
+﻿using AlgorithmAPI.Client;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataStructureAPI.Data

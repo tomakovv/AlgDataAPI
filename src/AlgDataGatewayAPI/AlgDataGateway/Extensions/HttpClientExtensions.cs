@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Text;
 
 namespace AlgDataGateway.Extensions
 {
@@ -10,6 +9,19 @@ namespace AlgDataGateway.Extensions
         {
             var response = await client.PostAsJsonAsync(uri, data);
 
+            return await CheckStatusCode<T>(response).ConfigureAwait(false);
+        }
+
+        public static async Task<OperationResult<T>> DoGetAsync<T>(this HttpClient client, string uri)
+         where T : class
+        {
+            var response = await client.GetAsync(uri);
+
+            return await CheckStatusCode<T>(response).ConfigureAwait(false);
+        }
+
+        private static async Task<OperationResult<T>> CheckStatusCode<T>(HttpResponseMessage response) where T : class
+        {
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
