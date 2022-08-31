@@ -31,8 +31,8 @@ namespace AlgDataGateway.Extensions
             else
             {
                 var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var errorDetails = JsonConvert.DeserializeAnonymousType(responseContent, new { Code = "", Message = "" });
-                return OperationResult<T>.Error(errorDetails.Code, errorDetails.Message);
+                var errorDetails = JsonConvert.DeserializeAnonymousType(responseContent, new { ErrorCode = "", ErrorMessage = "" });
+                return OperationResult<T>.Error(errorDetails.ErrorCode, errorDetails.ErrorMessage);
             }
         }
 

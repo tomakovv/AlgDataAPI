@@ -1,6 +1,6 @@
 ﻿namespace AlgorithmAPI.Client
 {
-    public class DataSet
+    public class DataSetRead
     {
         public List<int> Values { get; set; } = new List<int>();
     }

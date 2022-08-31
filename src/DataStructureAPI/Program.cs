@@ -1,11 +1,13 @@
 using DataStructureAPI.Data;
 using DataStructureAPI.Mapper;
+using DataStructureAPI.Middlewares;
 using DataStructureAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<ErrorMiddleware>();
 builder.Services.AddDbContext<DataStructureContext>(options => options
     .UseSqlServer("Server=db;Database=AppDbContext;User=sa;Password=1Secure*Password1;TrustServerCertificate=true"));
 builder.Services.AddControllers();
@@ -16,7 +18,7 @@ builder.Services.AddAutoMapper(typeof(DataStructureProfile));
 builder.Services.AddScoped<IDataStructuresService, DataStructuresService>();
 
 var app = builder.Build();
-
+app.UseMiddleware<ErrorMiddleware>();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

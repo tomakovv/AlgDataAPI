@@ -1,6 +1,7 @@
 ﻿using AlgorithmAPI.Client;
 using AutoMapper;
 using DataStructureAPI.Data;
+using DataStructureAPI.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataStructureAPI.Services
@@ -19,6 +20,8 @@ namespace DataStructureAPI.Services
         public async Task<DataStructureResponse> GetInfoAsync(string DataStructure)
         {
             var info = await _context.DataStructures.SingleOrDefaultAsync(s => s.Name.ToLower() == DataStructure);
+            if (info == null)
+                throw new NotFoundException("data structure not found");
             return _mapper.Map<DataStructureResponse>(info);
         }
     }

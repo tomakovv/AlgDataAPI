@@ -16,15 +16,15 @@ namespace AlgorithmAPI.Controllers
         }
 
         [HttpPost("BubbleSort")]
-        public IActionResult BubbleSort(DataSet data) => Ok(_sortService.BubbleSort(data));
+        public IActionResult BubbleSort(DataSetRead data) => Ok(_sortService.BubbleSort(data));
 
         [HttpPost("InsertionSort")]
-        public IActionResult InsertionSort(DataSet data) => Ok(_sortService.InsertionSort(data));
+        public IActionResult InsertionSort(DataSetRead data) => Ok(_sortService.InsertionSort(data));
 
         [HttpPost("MergeSort")]
-        public IActionResult MergeSort(DataSet data) => Ok(_sortService.MergeSort(data));
+        public IActionResult MergeSort(DataSetRead data) => Ok(_sortService.MergeSort(data));
 
         [HttpPost("QuickSort")]
-        public IActionResult QuickSort(DataSet data) => Ok(_sortService.QuickSort(data));
+        public IActionResult QuickSort(DataSetRead data) => Ok(_sortService.QuickSort(data));
     }
 }

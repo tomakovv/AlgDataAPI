@@ -4,7 +4,7 @@ namespace AlgorithmAPI.Services
 {
     public class SortService : ISortService
     {
-        public DataSetResponse BubbleSort(DataSet data)
+        public DataSetResponse BubbleSort(DataSetRead data)
         {
             var values = data.Values;
             var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -19,7 +19,7 @@ namespace AlgorithmAPI.Services
             return new DataSetResponse() { Data = values, TimeOfCalculation = elapsed };
         }
 
-        public DataSetResponse InsertionSort(DataSet data)
+        public DataSetResponse InsertionSort(DataSetRead data)
         {
             var values = data.Values;
             var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -43,7 +43,7 @@ namespace AlgorithmAPI.Services
             return new DataSetResponse() { Data = values, TimeOfCalculation = elapsed };
         }
 
-        public DataSetResponse MergeSort(DataSet data)
+        public DataSetResponse MergeSort(DataSetRead data)
         {
             var values = data.Values;
             var left = 0;
@@ -102,7 +102,7 @@ namespace AlgorithmAPI.Services
             }
         }
 
-        public DataSetResponse QuickSort(DataSet data)
+        public DataSetResponse QuickSort(DataSetRead data)
         {
             var values = data.Values;
             var left = 0;

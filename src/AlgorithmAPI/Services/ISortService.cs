@@ -4,12 +4,12 @@ namespace AlgorithmAPI.Services
 {
     public interface ISortService
     {
-        DataSetResponse BubbleSort(DataSet data);
+        DataSetResponse BubbleSort(DataSetRead data);
 
-        DataSetResponse InsertionSort(DataSet data);
+        DataSetResponse InsertionSort(DataSetRead data);
 
-        DataSetResponse MergeSort(DataSet data);
+        DataSetResponse MergeSort(DataSetRead data);
 
-        DataSetResponse QuickSort(DataSet data);
+        DataSetResponse QuickSort(DataSetRead data);
     }
 }
