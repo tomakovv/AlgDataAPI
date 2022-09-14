@@ -18,6 +18,13 @@ namespace AlgDataGateway.Controllers
             _configuration = configuration;
         }
 
+        [HttpPost("HugeCalculation")]
+        public async Task<IActionResult> HugeCalculation(DataSetRead data)
+        {
+            await _httpClient.PostAsJsonAsync(_configuration["AlgorithmPaths:HugeCalculation"], data);
+            return Ok();
+        }
+
         [HttpPost("BubbleSort")]
         public async Task<IActionResult> BubbleSort(DataSetRead data)
         => Ok(await _httpClient.DoPostAsync<DataSetResponse, DataSetRead>(_configuration["AlgorithmPaths:BubbleSort"], data));

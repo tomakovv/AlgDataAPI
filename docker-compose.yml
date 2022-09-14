@@ -2,13 +2,15 @@ version: '3.4'
 
 services:
   db:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=1Secure*Password1
+      SA_PASSWORD: "1Secure*Password1"
+      ACCEPT_EULA: "Y"
     ports:
       - 1433:1433
-
+    volumes:
+      - data-structure-db:/var/opt/mssql
+  
   algdatagateway:
     image: ${DOCKER_REGISTRY-}algdatagateway
     build:
@@ -24,15 +26,7 @@ services:
       - 1555:443
       - 1556:80
 
-
-  datastructureapi:
-    image: ${DOCKER_REGISTRY-}datastructureapi
-    build:
-      context: .
-      dockerfile: src/DataStructureAPI/Dockerfile
-
-
-  rabbitmq: # login guest:guest
+  rabbitmq: 
     image: rabbitmq:3-management
     hostname: "rabbitmq"
     labels:
@@ -43,4 +37,21 @@ services:
     - "5672:5672"
     - "25672:25672"
     - "15671:15671"
-    - "15672:15672"
+    - "15672:15672" 
+
+  datastructureapi:
+    image: ${DOCKER_REGISTRY-}datastructureapi
+    build:
+      context: .
+      dockerfile: src/DataStructureAPI/Dockerfile
+    depends_on:
+      - db
+  calculationapi:
+    image: ${DOCKER_REGISTRY-}calculationapi
+    build:
+      context: .
+      dockerfile: src/CalculationAPI/Dockerfile
+
+volumes:
+  data-structure-db: 
+

@@ -1,4 +1,5 @@
-﻿using AlgorithmAPI.Client;
+﻿using AlgorithmAPI.Algorithm.Messaging.Send;
+using AlgorithmAPI.Client;
 using AlgorithmAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,19 @@ namespace AlgorithmAPI.Controllers
     public class AlgorithmsController : ControllerBase
     {
         private readonly ISortService _sortService;
+        private readonly ICalculationSender _calculationSender;
 
-        public AlgorithmsController(ISortService sortService)
+        public AlgorithmsController(ISortService sortService, ICalculationSender calculationSender)
         {
             _sortService = sortService;
+            _calculationSender = calculationSender;
+        }
+
+        [HttpPost("HugeCalculation")]
+        public IActionResult HugeCalculation(DataSetRead data)
+        {
+            _calculationSender.SendCalculation(data);
+            return NoContent();
         }
 
         [HttpPost("BubbleSort")]

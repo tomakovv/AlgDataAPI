@@ -1,18 +1,18 @@
-using AlgorithmAPI.Algorithm.Messaging.Recieve;
-using AlgorithmAPI.Algorithm.Messaging.Send;
-using AlgorithmAPI.Services;
+using CalculationAPI.Calculation.Messaging.Receive;
+using CalculationAPI.Calculation.Messaging.Send;
+using CalculationAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.PropertyNamingPolicy = null);
-builder.Services.AddScoped<ISortService, SortService>();
-builder.Services.AddScoped<ICalculationSender, CalculationSender>();
-builder.Services.AddHostedService<CalculationResultReceiver>();
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICalculationService, CalculationService>();
+builder.Services.AddScoped<ICalculationResultSender, CalculationResultSender>();
+builder.Services.AddHostedService<CalculationReceiver>();
 
 var app = builder.Build();
 
@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
