@@ -8,6 +8,7 @@ namespace AlgorithmAPI.Algorithm.Messaging.Recieve
     {
         private IConnection _connection;
         private IModel _channel;
+        private readonly TimeSpan _period = TimeSpan.FromSeconds(100);
 
         public CalculationResultReceiver()
         {
@@ -16,17 +17,20 @@ namespace AlgorithmAPI.Algorithm.Messaging.Recieve
             _channel.QueueDeclare(queue: "CalculationResultQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (sender, ea) =>
+            using PeriodicTimer timer = new PeriodicTimer(_period);
+            while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
             {
-                var calculationResult = Encoding.UTF8.GetString(ea.Body.ToArray());
-                HandleCalculationResult(calculationResult);
-                _channel.BasicAck(ea.DeliveryTag, false);
-            };
-            _channel.BasicConsume("CalculationResultQueue", autoAck: false, consumer: consumer);
-            return Task.CompletedTask;
+                var consumer = new EventingBasicConsumer(_channel);
+                consumer.Received += (sender, ea) =>
+                {
+                    var calculationResult = Encoding.UTF8.GetString(ea.Body.ToArray());
+                    HandleCalculationResult(calculationResult);
+                    _channel.BasicAck(ea.DeliveryTag, false);
+                };
+                _channel.BasicConsume("CalculationResultQueue", autoAck: false, consumer: consumer);
+            }
         }
 
         private void CreateConnection()
